@@ -2,8 +2,8 @@ class FavoritesController < ApplicationController
 	before_action :find_property!
 	def create
 		current_user.favorite(@property)
-			render json: {message: 'property favorited'}
-		puts @property
+		render json: {message: 'property favorited'}
+		# puts @property
   end
 
 	def destroy
