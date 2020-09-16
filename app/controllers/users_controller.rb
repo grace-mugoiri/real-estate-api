@@ -1,4 +1,7 @@
 class UsersController < ApplicationController
+	before_action :authorize_api_request
+	skip_before_action :authorize_api_request, only: :create
+
 
 	def index
 		@users = User.all
@@ -20,9 +23,7 @@ class UsersController < ApplicationController
 
 	def create
 		@user = User.new(user_params)
-		# puts @user
 		if @user.save
-		# 	# login!
 			render json: @user, status: 200
 		else
 			render json: { error: 'Unable to create user' }, status: 400
@@ -42,6 +43,6 @@ class UsersController < ApplicationController
 	private
 
 	def user_params
-		params.require(:user).permit(:username, :email, :password, :password_confirmation)
+		params.permit(:username, :email, :password, :password_confirmation)
 	end
 end

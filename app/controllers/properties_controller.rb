@@ -1,12 +1,15 @@
 class PropertiesController < ApplicationController
+	before_action :authorize_api_request
+
 	def index
+		puts current_user[:email]
 		@properties = Property.all
 		if @properties
 			render json: { properties: @properties }
 		else
 			render json: { status: 500, errors: ['no properties found']}
 		end
-  end
+	end
 
 	def show
 		@property = Property.find(params[:id])
@@ -15,7 +18,7 @@ class PropertiesController < ApplicationController
 		else
 			render json: {error: 'No such property'}, status: 401
 		end
-  end
+	end
 
 	def create
 		@property = Property.new(prop_params)
@@ -24,7 +27,7 @@ class PropertiesController < ApplicationController
 		else
 			render json: {error: 'Unable to create property'}, status: 401
 		end
-  end
+	end
 
 	def destroy
 		@property = Property.find(params[:id])
@@ -38,7 +41,7 @@ class PropertiesController < ApplicationController
 
 	private
 	def prop_params
-		params.require(:property).permit(:address, :price, :occupied, :description)
+		params.permit(:address, :price, :occupied, :description)
 	end
 
 end
