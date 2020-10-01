@@ -13,6 +13,14 @@ class ApplicationController < ActionController::Base
 			request_http_basic_authentication
 		end
 	end
+	
+	def login!
+		session[:user_id] = @user.id
+	end
+
+	def logged_in?
+		!!session[:user_id]
+	end
 
 	def current_user
 		@current_user
